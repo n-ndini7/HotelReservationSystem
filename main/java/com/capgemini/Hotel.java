@@ -8,15 +8,20 @@ public class Hotel {
 	private int regularCustomerRateForWeekend;
 	private long totalRate;
 	private double rating;
+	private int rewardCustomerRateForWeekday;
+	private int rewardCustomerRateForWeekend;
 
 	// parameterized constructor
 	public Hotel(String hotelName, int regularCustomerRateForWeekday, int regularCustomerRateForWeekend,
-			double rating) {
+			int rewardCustomerRateForWeekday, int rewardCustomerRateForWeekend, double rating) {
 		this.hotelName = hotelName;
 		this.regularCustomerRateForWeekday = regularCustomerRateForWeekday;
 		this.regularCustomerRateForWeekend = regularCustomerRateForWeekend;
 		this.totalRate = 0;
 		this.rating = rating;
+		this.rewardCustomerRateForWeekday = rewardCustomerRateForWeekday;
+		this.rewardCustomerRateForWeekend = rewardCustomerRateForWeekend;
+
 	}
 
 	// getters and setters
@@ -44,6 +49,22 @@ public class Hotel {
 		this.regularCustomerRateForWeekend = rate;
 	}
 
+	public int getRewardCustomerRateForWeekday() {
+		return rewardCustomerRateForWeekday;
+	}
+
+	public void setRewardCustomerRateForWeekday(int rate) {
+		this.rewardCustomerRateForWeekday = rate;
+	}
+
+	public int getRewardCustomerRateForWeekend() {
+		return rewardCustomerRateForWeekend;
+	}
+
+	public void setRewardCustomerRateForWeekend(int rate) {
+		this.rewardCustomerRateForWeekend = rate;
+	}
+
 	public long getTotalRate() {
 		return totalRate;
 	}
@@ -62,9 +83,6 @@ public class Hotel {
 
 	@Override
 	public String toString() {
-		return "\nHotel Name: " + hotelName
-				+ "\nHotel rates for a regular customer (per day): \nFor Weekdays(Mon-Sat) : "
-				+ regularCustomerRateForWeekday + "$ \nFor Weekends(Sun): " + regularCustomerRateForWeekend
-				+ "$ \nRating: " + rating + "/5.0 ";
+		return "\nHotel Name: " + hotelName + "\nRating: " + rating + " ";
 	}
 }
