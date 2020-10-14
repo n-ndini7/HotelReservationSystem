@@ -3,6 +3,8 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 import java.text.ParseException;
 
@@ -18,18 +20,50 @@ public class HotelReservation {
 
 	// method to add a hotel
 
-	public Hotel findCheapestHotel(Date start, Date end) {
+	public Hotel findCheapestHotel(Date start, Date end, long weekDays) {
 		long noOfDays = (1 + (end.getTime() - start.getTime())) / (1000 * 60 * 60 * 24);
-		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getRegularCustomerRateForWeekday))
-				.findFirst().orElse(null);
-		long totalCostOfStay = noOfDays * cheapestHotel.getRegularCustomerRateForWeekday();
-		cheapestHotel.setTotalRate(totalCostOfStay);
-		return cheapestHotel;
+		long weekEnds = noOfDays - weekDays;
+		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
+		for (Hotel h : hotelList) {
+			long totalCostOfStay = (weekDays * h.getRegularCustomerRateForWeekday())
+					+ (weekEnds * h.getRegularCustomerRateForWeekend());
+			h.setTotalRate(totalCostOfStay);
 
+		}
+		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst()
+				.orElse(null);
+		return cheapestHotel;
 	}
 
 	// method to find cheapest hotel with in a date range
+	// Refactored to find cheapest hotels according to weekends and weekdays rates
 
+	private long countWeekDays(Date start, Date end) {
+		long countWeekdays = 0;
+		long countWeekends = 0;
+		Calendar startCal = Calendar.getInstance();
+		startCal.setTime(start);
+
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(end);
+		if (startCal.getTimeInMillis() > endCal.getTimeInMillis()) {
+			startCal.setTime(end);
+			endCal.setTime(start);
+		}
+
+		do {
+			// excluding start date
+			startCal.add(Calendar.DAY_OF_MONTH, 1);
+			if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+					&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+				++countWeekdays;
+			}
+		} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
+
+		return countWeekdays;
+	}
+
+	// counts number of weekdays between two date ranges
 	public void printHotel() {
 		for (Hotel h : hotelList) {
 			System.out.println(h);
@@ -62,10 +96,9 @@ public class HotelReservation {
 						System.out.println("Enter the Name of the Hotel: ");
 						String name = sc.nextLine();
 						System.out
-								.println("Enter the rates of the Hotel for a Regular Customer for Weekdays(Mon-fri): ");
+								.println("Enter the rates of the Hotel for a Regular Customer for Weekdays(Mon-Sat): ");
 						int ratesForWeekdays = Integer.parseInt(sc.nextLine());
-						System.out
-								.println("Enter the rates of the Hotel for a Regular Customer for Weekends(Sat-Sun): ");
+						System.out.println("Enter the rates of the Hotel for a Regular Customer for Weekends(Sun): ");
 						int ratesForWeekends = Integer.parseInt(sc.nextLine());
 						Hotel newHotel = new Hotel(name, ratesForWeekdays, ratesForWeekends);
 						service.addHotel(newHotel);
@@ -87,10 +120,10 @@ public class HotelReservation {
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
-
-				Hotel found = service.findCheapestHotel(startDate, endDate);
+				long weekDays = service.countWeekDays(startDate, endDate);
+				Hotel found = service.findCheapestHotel(startDate, endDate, weekDays);
 				System.out.println(found);
-				System.out.println("Total cost of stay: " + found.getTotalRate()+"$ .");
+				System.out.println("Total cost of stay: " + found.getTotalRate() + "$ .");
 				break;
 
 			case 3:
