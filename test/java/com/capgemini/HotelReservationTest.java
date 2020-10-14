@@ -36,13 +36,16 @@ public class HotelReservationTest {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		// long weekDays = service.countWeekDays(start, end);
-		// Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays);
-		// Assert.assertEquals("Lakewood", hotel.getHotelName());
+		long weekDays = service.countWeekDays(start, end);
+		Customer customer = new Customer();
+		customer.setCustomerType("Reward");
+		Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays, customer);
+		Assert.assertEquals("Ridgewood", hotel.getHotelName());
 	}
 
 	// test for cheapest hotel
-
+	// test to get cheapest hotel for reward type customer
+	
 	@Test
 	public void testForcheapestHotelWithinADateRange_AccordingToRating() {
 		HotelReservation service = new HotelReservation();
