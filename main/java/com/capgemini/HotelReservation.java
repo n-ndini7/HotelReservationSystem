@@ -20,7 +20,7 @@ public class HotelReservation {
 
 	// method to add a hotel
 
-	public Hotel findCheapestHotel(Date start, Date end, long weekDays) {
+	public Hotel findCheapestBestRatedHotel(Date start, Date end, long weekDays) {
 		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 		long weekEnds = noOfDays - weekDays;
 		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
@@ -30,8 +30,18 @@ public class HotelReservation {
 			h.setTotalRate(totalCostOfStay);
 
 		}
-		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst()
-				.orElse(null);
+		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating))
+				.collect(Collectors.toList());
+
+		Hotel cheapestHotel = listOfBestRatedHotels.get(0);
+		for (Hotel hotel : listOfBestRatedHotels) {
+			if (hotel.getTotalRate() <= cheapestHotel.getTotalRate()) {
+				if (hotel.getRating() > cheapestHotel.getRating())
+					cheapestHotel = hotel;
+			} else
+				break;
+		}
+
 		return cheapestHotel;
 	}
 
@@ -56,7 +66,7 @@ public class HotelReservation {
 
 			} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
 
-    }
+		}
 		return countWeekdays;
 	}
 
