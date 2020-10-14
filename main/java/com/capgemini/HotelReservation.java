@@ -3,14 +3,12 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
-//UC6 - find cheapest best rated hotel
+//UC4 - find cheapest hotel within a date range
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -22,7 +20,7 @@ public class HotelReservation {
 
 	// method to add a hotel
 
-	public Hotel findCheapestBestRatedHotel(Date start, Date end, long weekDays) {
+	public Hotel findCheapestHotel(Date start, Date end, long weekDays) {
 		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 		long weekEnds = noOfDays - weekDays;
 		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
@@ -32,24 +30,13 @@ public class HotelReservation {
 			h.setTotalRate(totalCostOfStay);
 
 		}
-		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating))
-				.collect(Collectors.toList());
-
-		Hotel cheapestHotel = listOfBestRatedHotels.get(0);
-		for (Hotel hotel : listOfBestRatedHotels) {
-			if (hotel.getTotalRate() <= cheapestHotel.getTotalRate()) {
-				if (hotel.getRating() > cheapestHotel.getRating())
-					cheapestHotel = hotel;
-			} else
-				break;
-		}
-
+		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst()
+				.orElse(null);
 		return cheapestHotel;
 	}
 
 	// method to find cheapest hotel with in a date range
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
-	// Refactored to find cheapest hotel according to rating
 
 	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
@@ -60,16 +47,16 @@ public class HotelReservation {
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(end);
 		if (startCal.getTimeInMillis() < endCal.getTimeInMillis()) {
-
 			do {
-
 				if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
 						&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 					++countWeekdays;
 				}
 				startCal.add(Calendar.DAY_OF_MONTH, 1);
-			} while (startCal.getTimeInMillis() <= endCal.getTimeInMillis());
-		}
+
+			} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
+
+    }
 		return countWeekdays;
 	}
 
