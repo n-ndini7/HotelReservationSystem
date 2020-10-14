@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.text.ParseException;
 
-//UC3 - add weekdays and weekends rates for the hotels
+//UC5 - add rating to the hotels
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -38,7 +38,7 @@ public class HotelReservation {
 	// method to find cheapest hotel with in a date range
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
 
-	private long countWeekDays(Date start, Date end) {
+	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
 		long countWeekends = 0;
 		Calendar startCal = Calendar.getInstance();
@@ -77,9 +77,9 @@ public class HotelReservation {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to Hotel Reservation Program!");
 		HotelReservation service = new HotelReservation();
-		Hotel hotel1 = new Hotel("Lakewood", 110, 90);
-		Hotel hotel2 = new Hotel("Bridgewood", 150, 50);
-		Hotel hotel3 = new Hotel("Ridgewood", 220, 150);
+		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
+		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
+		Hotel hotel3 = new Hotel("Ridgewood", 220, 150, 5.0);
 		service.addHotel(hotel1);
 		service.addHotel(hotel2);
 		service.addHotel(hotel3);
@@ -100,7 +100,9 @@ public class HotelReservation {
 						int ratesForWeekdays = Integer.parseInt(sc.nextLine());
 						System.out.println("Enter the rates of the Hotel for a Regular Customer for Weekends(Sun): ");
 						int ratesForWeekends = Integer.parseInt(sc.nextLine());
-						Hotel newHotel = new Hotel(name, ratesForWeekdays, ratesForWeekends);
+						System.out.println("Enter rating of the Hotel: ");
+						double rating = Double.parseDouble(sc.nextLine());
+						Hotel newHotel = new Hotel(name, ratesForWeekdays, ratesForWeekends, rating);
 						service.addHotel(newHotel);
 						System.out.println("Hotel " + name + " added to the Hotel Reservation System!\n");
 					} else {
