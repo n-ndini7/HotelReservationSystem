@@ -3,8 +3,6 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.text.ParseException;
@@ -22,7 +20,6 @@ public class HotelReservation {
 
 	// method to add a hotel
 
-	// counts number of weekdays between two date ranges
 	public void printHotel() {
 		for (Hotel h : hotelList) {
 			System.out.println(h);
