@@ -13,7 +13,7 @@ public class HotelReservationTest {
 	@Test
 	public void HotelAdded_methodShouldReturnTrue() {
 		HotelReservation service = new HotelReservation();
-		Hotel hotelCheck = new Hotel("Bridgewood", 150, 50);
+		Hotel hotelCheck = new Hotel("Bridgewood", 150, 50, 4.0);
 		boolean checkIfAdded = service.addHotel(hotelCheck);
 		Assert.assertEquals(checkIfAdded, true);
 	}
@@ -23,9 +23,9 @@ public class HotelReservationTest {
 	@Test
 	public void testForcheapestHotelWithinADateRange_AccordingToWeekdayCharges() {
 		HotelReservation service = new HotelReservation();
-		Hotel hotel1 = new Hotel("Lakewood", 110, 90);
-		Hotel hotel2 = new Hotel("Bridgewood", 150, 50);
-		Hotel hotel3 = new Hotel("Ridgewood", 220, 150);
+		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
+		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
+		Hotel hotel3 = new Hotel("Ridgewood", 220, 150, 5.0);
 		service.addHotel(hotel1);
 		service.addHotel(hotel2);
 		service.addHotel(hotel3);
@@ -41,7 +41,6 @@ public class HotelReservationTest {
 		Hotel found = service.findCheapestHotel(start, end, weekDays);
 		Assert.assertEquals("Lakewood", found.getHotelName());
 
-	}
-
-	// test for finding cheapest hotel
+	// test for finding cheapest hotel 
 }
+

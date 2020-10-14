@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.text.ParseException;
+import java.util.Calendar;
 
 //UC4 - find cheapest hotel within a date range
 public class HotelReservation {
@@ -24,7 +25,7 @@ public class HotelReservation {
 		long weekEnds = noOfDays - weekDays;
 		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
 		for (Hotel h : hotelList) {
-			long totalCostOfStay = (weekDays * h.getRegularCustomerRateForWeekday())
+			long totalCostOfStay = ((weekDays) * h.getRegularCustomerRateForWeekday())
 					+ (weekEnds * h.getRegularCustomerRateForWeekend());
 			h.setTotalRate(totalCostOfStay);
 
@@ -72,9 +73,9 @@ public class HotelReservation {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome to Hotel Reservation Program!");
 		HotelReservation service = new HotelReservation();
-		Hotel hotel1 = new Hotel("Lakewood", 110, 90);
-		Hotel hotel2 = new Hotel("Bridgewood", 150, 50);
-		Hotel hotel3 = new Hotel("Ridgewood", 220, 150);
+		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
+		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
+		Hotel hotel3 = new Hotel("Ridgewood", 220, 150, 5.0);
 		service.addHotel(hotel1);
 		service.addHotel(hotel2);
 		service.addHotel(hotel3);
@@ -95,7 +96,9 @@ public class HotelReservation {
 						int ratesForWeekdays = Integer.parseInt(sc.nextLine());
 						System.out.println("Enter the rates of the Hotel for a Regular Customer for Weekends(Sun): ");
 						int ratesForWeekends = Integer.parseInt(sc.nextLine());
-						Hotel newHotel = new Hotel(name, ratesForWeekdays, ratesForWeekends);
+						System.out.println("Enter rating of the Hotel: ");
+						double rating = Double.parseDouble(sc.nextLine());
+						Hotel newHotel = new Hotel(name, ratesForWeekdays, ratesForWeekends, rating);
 						service.addHotel(newHotel);
 						System.out.println("Hotel " + name + " added to the Hotel Reservation System!\n");
 					} else {
@@ -116,7 +119,7 @@ public class HotelReservation {
 					System.out.println(e.getMessage());
 				}
 				long weekDays = service.countWeekDays(startDate, endDate);
-				Hotel found = service.findCheapestHotel(startDate, endDate, weekDays);
+				Hotel found = service.findCheapestBestRatedHotel(startDate, endDate, weekDays);
 				System.out.println(found);
 				System.out.println("Total cost of stay: " + found.getTotalRate() + "$ .");
 				break;
