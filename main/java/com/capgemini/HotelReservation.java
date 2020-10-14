@@ -38,7 +38,7 @@ public class HotelReservation {
 	// method to find cheapest hotel with in a date range
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
 
-	private long countWeekDays(Date start, Date end) {
+	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
 		long countWeekends = 0;
 		Calendar startCal = Calendar.getInstance();
