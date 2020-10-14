@@ -39,7 +39,6 @@ public class HotelReservationTest {
 
 		Assert.assertEquals("Lakewood", hotel.getHotelName());
 	}
-
-	// test method for finding cheapest hotel
-
+  
+  //test for finding cheapest hotel
 }
