@@ -3,12 +3,11 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.stream.Collectors;
 import java.text.ParseException;
 
-//UC3 - add weekdays and weekends rates for the hotels
+//UC4 - find cheapest hotel within a date range
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
