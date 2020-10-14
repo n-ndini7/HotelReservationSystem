@@ -36,8 +36,8 @@ public class HotelReservationTest {
 			System.out.println(e.getMessage());
 		}
 		long weekDays = service.countWeekDays(start, end);
-		Hotel hotel = service.findCheapestHotel(start, end, weekDays);
-		Assert.assertEquals("Lakewood", hotel.getHotelName());
+		Hotel found = service.findCheapestHotel(start, end, weekDays);
+		Assert.assertEquals("Lakewood", found.getHotelName());
 	}
 
 	// test for finding cheapest hotel
