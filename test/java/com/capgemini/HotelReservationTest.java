@@ -63,3 +63,4 @@ public class HotelReservationTest {
 	}
 	// test for finding cheapest hotel accoridng to rating
 }
+
