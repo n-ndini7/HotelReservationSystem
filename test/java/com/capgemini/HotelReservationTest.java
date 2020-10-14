@@ -30,8 +30,8 @@ public class HotelReservationTest {
 		Date start = null;
 		Date end = null;
 		try {
-			start = new SimpleDateFormat("ddMMMyyyy").parse("05Oct2020");
-			end = new SimpleDateFormat("ddMMMyyyy").parse("09Oct2020");
+			start = new SimpleDateFormat("ddMMMyyyy").parse("11Sep2020");
+			end = new SimpleDateFormat("ddMMMyyyy").parse("12Sep2020");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
