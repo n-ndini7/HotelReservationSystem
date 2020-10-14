@@ -8,7 +8,7 @@ public class HotelReservationTest {
 	@Test
 	public void HotelAdded_methodShouldReturnTrue() {
 		HotelReservation service = new HotelReservation();
-		Hotel hotelCheck = new Hotel("Bridgewood", 160);
+		Hotel hotelCheck = new Hotel("Bridgewood", 150, 50);
 		boolean checkIfAdded = service.addHotel(hotelCheck);
 		Assert.assertEquals(checkIfAdded, true);
 	}
