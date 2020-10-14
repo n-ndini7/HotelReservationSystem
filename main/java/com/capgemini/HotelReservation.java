@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
-//UC4 - find cheapest hotel within a date range
+//UC7 - find best rated hotel
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -48,6 +48,31 @@ public class HotelReservation {
 	// method to find cheapest hotel with in a date range
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
 
+	public Hotel findBestRatedHotel(Date start, Date end, long weekDays) {
+		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+		long weekEnds = noOfDays - weekDays;
+		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
+		for (Hotel h : hotelList) {
+			long totalCostOfStay = ((weekDays) * h.getRegularCustomerRateForWeekday())
+					+ (weekEnds * h.getRegularCustomerRateForWeekend());
+			h.setTotalRate(totalCostOfStay);
+
+		}
+		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating).reversed())
+				.collect(Collectors.toList());
+		Hotel bestRatedHotel = listOfBestRatedHotels.get(0);
+		for (Hotel hotel : listOfBestRatedHotels) {
+			if (hotel.getTotalRate() <= bestRatedHotel.getTotalRate()) {
+				if (hotel.getRating() > bestRatedHotel.getRating())
+					bestRatedHotel = hotel;
+			} else
+				break;
+		}
+
+		return bestRatedHotel;
+	}
+
+	// find best rated hotel
 	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
 		long countWeekends = 0;
@@ -92,7 +117,7 @@ public class HotelReservation {
 		service.addHotel(hotel3);
 		while (true) {
 			System.out.println(
-					"\n1.Add a Hotel \n2.Find the cheapest Hotel \n3.Display the Hotel list \n4.Exit \nEnter your choice: ");
+					"\n1.Add a Hotel \n2.Find the cheapest Hotel \n3.Display the Hotel list \n4.Find the best rated Hotel \n5.Exit \nEnter your choice: ");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -140,6 +165,23 @@ public class HotelReservation {
 				service.printHotel();
 				break;
 			case 4:
+				try {
+					System.out.println("Enter start date of the stay :");
+					String start = sc.nextLine();
+					startDate = new SimpleDateFormat("ddMMMyyyy").parse(start);
+					System.out.println("Enter end date of the stay:");
+					String end = sc.nextLine();
+					endDate = new SimpleDateFormat("ddMMMyyyy").parse(end);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				long weekDay = service.countWeekDays(startDate, endDate);
+				Hotel hotel = service.findBestRatedHotel(startDate, endDate, weekDay);
+				System.out.println(hotel);
+				System.out.println("Total cost of stay: " + hotel.getTotalRate() + "$ .");
+				break;
+
+			case 5:
 				System.out.println("Thankyou for using the application!");
 				System.exit(0);
 				break;
