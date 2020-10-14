@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class HotelReservationTest {
 
@@ -60,8 +62,9 @@ public class HotelReservationTest {
 			System.out.println(e.getMessage());
 		}
 		long weekDays = service.countWeekDays(start, end);
-		Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays);
-		Assert.assertEquals("Bridgewood", hotel.getHotelName());
+		Hotel found = service.findCheapestBestRatedHotel(start, end, weekDays);
+		Assert.assertEquals("Bridgewood", found.getHotelName());
+
 	}
 	// test for finding cheapest hotel according to rating
 
