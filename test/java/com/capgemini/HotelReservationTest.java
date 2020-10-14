@@ -40,8 +40,10 @@ public class HotelReservationTest {
 		Assert.assertEquals("Lakewood", hotel.getHotelName());
 	}
 
+	// test for cheapest hotel
+
 	@Test
-	public void testForcheapestHotelWithinADateRange_AccoringToRating() {
+	public void testForcheapestHotelWithinADateRange_AccordingToRating() {
 		HotelReservation service = new HotelReservation();
 		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
 		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
@@ -61,5 +63,5 @@ public class HotelReservationTest {
 		Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays);
 		Assert.assertEquals("Bridgewood", hotel.getHotelName());
 	}
-	// test for finding cheapest hotel accoridng to rating
+	// test for finding cheapest hotel according to rating
 }
