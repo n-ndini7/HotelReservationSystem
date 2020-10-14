@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class HotelReservationTest {
 
@@ -19,7 +21,7 @@ public class HotelReservationTest {
 	// test for add a hotel
 
 	@Test
-	public void testForcheapestHotelWithinADateRange_AccoringToWeekdayCharges() {
+	public void testForcheapestHotelWithinADateRange_AccordingToWeekdayCharges() {
 		HotelReservation service = new HotelReservation();
 		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
 		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
@@ -36,31 +38,9 @@ public class HotelReservationTest {
 			System.out.println(e.getMessage());
 		}
 		long weekDays = service.countWeekDays(start, end);
-		Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays);
-		Assert.assertEquals("Lakewood", hotel.getHotelName());
-	}
+		Hotel found = service.findCheapestHotel(start, end, weekDays);
+		Assert.assertEquals("Lakewood", found.getHotelName());
 
-	@Test
-	public void testForcheapestHotelWithinADateRange_AccoringToRating() {
-		HotelReservation service = new HotelReservation();
-		Hotel hotel1 = new Hotel("Lakewood", 110, 90, 3.0);
-		Hotel hotel2 = new Hotel("Bridgewood", 150, 50, 4.0);
-		Hotel hotel3 = new Hotel("Ridgewood", 220, 150, 5.0);
-		service.addHotel(hotel1);
-		service.addHotel(hotel2);
-		service.addHotel(hotel3);
-		Date start = null;
-		Date end = null;
-		try {
-			start = new SimpleDateFormat("ddMMMyyyy").parse("11Sep2020");
-			end = new SimpleDateFormat("ddMMMyyyy").parse("12Sep2020");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		long weekDays = service.countWeekDays(start, end);
-		Hotel hotel = service.findCheapestBestRatedHotel(start, end, weekDays);
-		Assert.assertEquals("Bridgewood", hotel.getHotelName());
-	}
-	// test for finding cheapest hotel accoridng to rating
+	// test for finding cheapest hotel 
 }
 

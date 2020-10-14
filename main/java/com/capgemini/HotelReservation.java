@@ -3,14 +3,12 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
-//UC6 - find cheapest best rated hotel
+//UC4 - find cheapest hotel within a date range
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -32,18 +30,8 @@ public class HotelReservation {
 			h.setTotalRate(totalCostOfStay);
 
 		}
-		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating))
-				.collect(Collectors.toList());
-
-		Hotel cheapestHotel = listOfBestRatedHotels.get(0);
-		for (Hotel hotel : listOfBestRatedHotels) {
-			if (hotel.getTotalRate() <= cheapestHotel.getTotalRate()) {
-				if (hotel.getRating() > cheapestHotel.getRating())
-					cheapestHotel = hotel;
-			} else
-				break;
-		}
-
+		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst()
+				.orElse(null);
 		return cheapestHotel;
 	}
 
