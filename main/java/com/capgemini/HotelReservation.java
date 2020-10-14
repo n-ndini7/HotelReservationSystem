@@ -22,7 +22,7 @@ public class HotelReservation {
 
 	// method to add a hotel
 
-	public Hotel findCheapestBestRatedHotel(Date start, Date end, long weekDays) {
+	public Hotel findCheapestHotel(Date start, Date end, long weekDays) {
 		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 		long weekEnds = noOfDays - weekDays;
 		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
@@ -49,7 +49,6 @@ public class HotelReservation {
 
 	// method to find cheapest hotel with in a date range
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
-	// Refactored to find cheapest hotel according to rating
 
 	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
@@ -62,7 +61,6 @@ public class HotelReservation {
 		if (startCal.getTimeInMillis() < endCal.getTimeInMillis()) {
 
 			do {
-
 				if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
 						&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 					++countWeekdays;
