@@ -47,15 +47,16 @@ public class HotelReservation {
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(end);
 		if (startCal.getTimeInMillis() < endCal.getTimeInMillis()) {
-
 			do {
 				if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
 						&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 					++countWeekdays;
 				}
 				startCal.add(Calendar.DAY_OF_MONTH, 1);
-			} while (startCal.getTimeInMillis() <= endCal.getTimeInMillis());
-		}
+
+			} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
+
+    }
 		return countWeekdays;
 	}
 

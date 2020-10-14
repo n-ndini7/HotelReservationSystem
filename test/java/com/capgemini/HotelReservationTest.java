@@ -41,6 +41,7 @@ public class HotelReservationTest {
 		Hotel found = service.findCheapestHotel(start, end, weekDays);
 		Assert.assertEquals("Lakewood", found.getHotelName());
 
+	}
 	// test for finding cheapest hotel 
 }
 
