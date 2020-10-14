@@ -14,4 +14,5 @@ public class HotelReservationTest {
 	}
 
 	// test for add a hotel
+
 }
