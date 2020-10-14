@@ -52,8 +52,7 @@ public class Hotel {
 	@Override
 	public String toString() {
 		return "\nHotel Name: " + hotelName
-				+ "\nHotel rates for a regular customer (per day): \n For Weekdays(Mon-Fri) : "
-				+ regularCustomerRateForWeekday + "$ \n For Weekends(Sat-Sun): " + regularCustomerRateForWeekend
-				+ "$ ";
+				+ "\nHotel rates for a regular customer (per day): \n For Weekdays(Mon-Sat) : "
+				+ regularCustomerRateForWeekday + "$ \n For Weekends(Sun): " + regularCustomerRateForWeekend + "$ ";
 	}
 }
