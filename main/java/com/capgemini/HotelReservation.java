@@ -34,7 +34,7 @@ public class HotelReservation {
 		} else if (customer.getCustomerType().equals("reward")) {
 			for (Hotel hotel : hotelList) {
 				long totalRate = weekDays * hotel.getRewardCustomerRateForWeekday()
-						+ weekEnds * hotel.getRewardCustomerRateForWeekday();
+						+ weekEnds * hotel.getRewardCustomerRateForWeekend();
 				hotel.setTotalRate(totalRate);
 			}
 		}
