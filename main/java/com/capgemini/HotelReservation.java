@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
-//UC10 - find cheapest best rated hotel for a reward customer
+//UC11 - find cheapest best rated hotel for a reward customer and exceptions added for invalid customer type
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -23,25 +23,26 @@ public class HotelReservation {
 		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 		long weekEnds = noOfDays - weekDays;
 		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
-		if (customer.getCustomerType().equals("regular")) {
+		if (customer.getCustomerType().equalsIgnoreCase("Regular")) {
 			for (Hotel hotel : hotelList) {
 				long totalRate = weekDays * hotel.getRegularCustomerRateForWeekday()
 						+ weekEnds * hotel.getRegularCustomerRateForWeekend();
 				hotel.setTotalRate(totalRate);
 			}
-		} else if (customer.getCustomerType().equals("reward")) {
+		} else if (customer.getCustomerType().equalsIgnoreCase("Reward")) {
 			for (Hotel hotel : hotelList) {
 				long totalRate = weekDays * hotel.getRewardCustomerRateForWeekday()
-						+ weekEnds * hotel.getRewardCustomerRateForWeekday();
+						+ weekEnds * hotel.getRewardCustomerRateForWeekend();
 				hotel.setTotalRate(totalRate);
 			}
 		}
-		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating))
+		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate))
 				.collect(Collectors.toList());
 
 		Hotel cheapestHotel = listOfBestRatedHotels.get(0);
+		long cheapestHotelRate = listOfBestRatedHotels.get(0).getTotalRate();
 		for (Hotel hotel : listOfBestRatedHotels) {
-			if (hotel.getTotalRate() <= cheapestHotel.getTotalRate()) {
+			if (hotel.getTotalRate() <= cheapestHotelRate) {
 				if (hotel.getRating() > cheapestHotel.getRating())
 					cheapestHotel = hotel;
 			} else
@@ -55,6 +56,40 @@ public class HotelReservation {
 	// Refactored to find cheapest hotels according to weekends and weekdays rates
 	// Refactored to find cheapest hotel according to rating
 	// find the cheapest best rated hotel for a reward customer
+
+	public Hotel findBestRatedHotel(Date start, Date end, long weekDays, Customer customer) {
+		long noOfDays = 1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+		long weekEnds = noOfDays - weekDays;
+		System.out.println("Weekdays: " + weekDays + " Weekends: " + weekEnds);
+		if (customer.getCustomerType().equalsIgnoreCase("Regular")) {
+			for (Hotel hotel : hotelList) {
+				long totalRate = weekDays * hotel.getRegularCustomerRateForWeekday()
+						+ weekEnds * hotel.getRegularCustomerRateForWeekend();
+				hotel.setTotalRate(totalRate);
+			}
+		} else if (customer.getCustomerType().equalsIgnoreCase("Reward")) {
+			for (Hotel hotel : hotelList) {
+				long totalRate = weekDays * hotel.getRewardCustomerRateForWeekday()
+						+ weekEnds * hotel.getRewardCustomerRateForWeekday();
+				hotel.setTotalRate(totalRate);
+			}
+		}
+
+		List<Hotel> listOfBestRatedHotels = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating).reversed())
+				.collect(Collectors.toList());
+		Hotel bestRatedHotel = listOfBestRatedHotels.get(0);
+		for (Hotel hotel : listOfBestRatedHotels) {
+			if (hotel.getTotalRate() <= bestRatedHotel.getTotalRate()) {
+				if (hotel.getRating() > bestRatedHotel.getRating())
+					bestRatedHotel = hotel;
+			} else
+				break;
+		}
+
+		return bestRatedHotel;
+	}
+
+	// find best rated hotel
 
 	public long countWeekDays(Date start, Date end) {
 		long countWeekdays = 0;
@@ -132,7 +167,7 @@ public class HotelReservation {
 				}
 				break;
 			case 2:
-				System.out.println("1.For Regular Customers \n2.For Reward Customers");
+				System.out.println("1.Press '1' for Regular Customers \n2.Press '2' for Reward Customers");
 				int type = Integer.parseInt(sc.nextLine());
 				try {
 					if (type == 1) {
@@ -145,7 +180,8 @@ public class HotelReservation {
 					System.out.println(e.getMessage());
 					break;
 				}
-				System.out.println("2.Find the cheapest best rated Hotel \n3.Display the Hotel List");
+				System.out.println(
+						"1.Find the cheapest best rated Hotel \n2.Find the best rated hotel \n3.Display the Hotel List");
 				int select = Integer.parseInt(sc.nextLine());
 				if (select == 1) {
 					try {
@@ -165,6 +201,21 @@ public class HotelReservation {
 				} else if (select == 3) {
 					System.out.println("\nThe Hotel list is as follows: ");
 					service.printHotel();
+				} else if (select == 2) {
+					try {
+						System.out.println("Enter start date of the stay :");
+						String start = sc.nextLine();
+						startDate = new SimpleDateFormat("ddMMMyyyy").parse(start);
+						System.out.println("Enter end date of the stay:");
+						String end = sc.nextLine();
+						endDate = new SimpleDateFormat("ddMMMyyyy").parse(end);
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+					long weekDay = service.countWeekDays(startDate, endDate);
+					Hotel hotel = service.findBestRatedHotel(startDate, endDate, weekDay, customer);
+					System.out.println(hotel);
+					System.out.println("Total cost of stay: " + hotel.getTotalRate() + "$ .");
 				} else {
 					System.out.println("Wrong choice entered!!");
 				}
