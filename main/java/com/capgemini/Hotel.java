@@ -6,7 +6,7 @@ public class Hotel {
 	private String hotelName;
 	private int regularCustomerRateForWeekday;
 	private int regularCustomerRateForWeekend;
-	private long totalRate;
+	private long totalRate = 0;
 	private double rating;
 	private int rewardCustomerRateForWeekday;
 	private int rewardCustomerRateForWeekend;
@@ -17,7 +17,7 @@ public class Hotel {
 		this.hotelName = hotelName;
 		this.regularCustomerRateForWeekday = regularCustomerRateForWeekday;
 		this.regularCustomerRateForWeekend = regularCustomerRateForWeekend;
-		this.totalRate = 0;
+		// this.totalRate = 0;
 		this.rating = rating;
 		this.rewardCustomerRateForWeekday = rewardCustomerRateForWeekday;
 		this.rewardCustomerRateForWeekend = rewardCustomerRateForWeekend;
