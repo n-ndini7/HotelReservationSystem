@@ -3,14 +3,13 @@ package com.capgemini;
 import java.util.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
 //UC12 - find cheapest best rated hotel for a regular customer and exceptions added for invalid customer type
+
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
@@ -115,7 +114,6 @@ public class HotelReservation {
 		return countWeekdays;
 	}
 
-	// counts number of weekdays between two date ranges
 	public void printHotel() {
 		for (Hotel h : hotelList) {
 			System.out.println(h);

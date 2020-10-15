@@ -4,7 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class HotelReservationTest {
 
@@ -44,7 +46,7 @@ public class HotelReservationTest {
 
 	// test for cheapest hotel
 	// test to get cheapest hotel for reward type customer
-	// test to get cheapest hotel for reward type customer
+	// test to get best rated cheapest hotel for reward type customer
 
 	@Test
 	public void testForBestHotelWithinADateRange_AccordingToRating() {
@@ -71,4 +73,5 @@ public class HotelReservationTest {
 	}
 
 	// find best rated hotel
+	// find best hotel for reward type customers
 }
