@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 import java.text.ParseException;
 import java.util.Calendar;
 
-//UC11 - find cheapest best rated hotel for a reward customer and exceptions added for invalid customer type
+//UC12 - find cheapest best rated hotel for a regular customer and exceptions added for invalid customer type
+
 public class HotelReservation {
 
 	private ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
